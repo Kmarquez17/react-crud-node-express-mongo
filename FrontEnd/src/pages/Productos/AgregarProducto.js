@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Formulario from "../components/Formularios/Productos";
+import Formulario from "../../components/Formularios/Productos";
 import Swal from "sweetalert2";
-import Request from "../services/request";
+import Request from "../../services/request";
 
 class AgregarProducto extends Component {
   constructor(props) {
@@ -59,7 +59,6 @@ class AgregarProducto extends Component {
     //Agregamos el producto
     const data = this.state.data;
     this.service.agregar("/producto/agregar", data).then(res => {
-      console.log(res);
       if (res.status === 200) {
         Swal.fire(
           "Producto Creado",
@@ -80,6 +79,7 @@ class AgregarProducto extends Component {
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
           error={this.state.error}
+          btnNombre="Agregar"
         />
       </React.Fragment>
     );

@@ -28,7 +28,7 @@ const findValor = (obj1, obj2) => {
   return null;
 };
 
-const Body = ({ columns, data, handleEditar }) => {
+const Body = ({ columns, data, handleEditar, handleEliminar }) => {
   return (
     <tbody>
       {data.map((data, index) => (
@@ -51,7 +51,14 @@ const Body = ({ columns, data, handleEditar }) => {
             >
               Editar
             </Button>
-            <Button color="danger">Eliminar</Button>
+            <Button
+              color="danger"
+              onClick={() => {
+                handleEliminar(data);
+              }}
+            >
+              Eliminar
+            </Button>
           </td>
         </tr>
       ))}
@@ -62,13 +69,14 @@ const Body = ({ columns, data, handleEditar }) => {
 class Tabla extends Component {
   render() {
     return (
-      <div className="col-12">            
+      <div className="col-12">
         <Table bordered>
           <Header columns={this.props.columns} />
           <Body
             columns={this.props.columns}
             data={this.props.data}
             handleEditar={this.props.handleEditar}
+            handleEliminar={this.props.handleEliminar}
           />
         </Table>
       </div>

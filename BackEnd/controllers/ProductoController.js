@@ -3,6 +3,7 @@ import models from "../models";
 const agregarProducto = async (req, res, next) => {
   try {
     const data = await models.Producto.create(req.body);
+    console.log(data)
     res.status(200).json(data);
   } catch (e) {
     res.status(500).send({

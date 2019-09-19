@@ -1,5 +1,5 @@
 import React from "react";
-import ImgNotFound from "../../imagenes/NotFound.jpg";
+import ImgNotFound from "../../../imagenes/NotFound.jpg";
 const NotFound = () => {
   return (
     <div className="row">

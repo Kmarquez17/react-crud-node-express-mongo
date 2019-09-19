@@ -14,9 +14,8 @@ export default class Request {
       ...options
     }).then(response => {
       console.log(response);
-      return response.json();
+      return response;
     });
-    
   }
 
   async agregar(from, data) {
@@ -33,13 +32,18 @@ export default class Request {
     }).catch(this.handleError);
   }
 
-  editar(from, data) {
+  async editar(from, data) {
     console.debug(data);
-    return this.requestFetch(from, {
+    return await this.requestFetch(from, {
       method: "PUT",
       body: JSON.stringify(data)
-    });
-    // .catch(this.handleError);
+    }).catch(this.handleError);
+  }
+
+  delete(from) {
+    return this.requestFetch(from, {
+      method: "DELETE"
+    }).catch(this.handleError);
   }
 
   //   query(from) {
@@ -48,17 +52,11 @@ export default class Request {
   //     }).catch(this.handleError);
   //   }
 
-  //   delete(from, id) {
-  //     console.debug(id);
-  //     return this.requestFetch(from, {
-  //       method: "DELETE",
-  //       body: JSON.stringify({ _id: id })
-  //     }).catch(this.handleError);
-  //   }
-
-  // list(from) {
+  // delete(from, id) {
+  //   console.debug(id);
   //   return this.requestFetch(from, {
-  //     method: "GET"
+  //     method: "DELETE",
+  //     body: JSON.stringify({ _id: id })
   //   }).catch(this.handleError);
   // }
 

@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 import Header from "./components/Header";
-
-import AgregarProducto from "./pages/AgregarProducto";
-import EditarProducto from "./pages/EditarProducto";
-import ListadoProductos from "./pages/ListadoProductos";
-import NotFound from "./pages/NotFound";
+import Inicio from "./pages/Inicio/Inicio";
+import AgregarProducto from "./pages/Productos/AgregarProducto";
+import EditarProducto from "./pages/Productos/EditarProducto";
+import ListadoProductos from "./pages/Productos/ListadoProductos";
+import NotFound from "./pages/Productos/NotFound";
 
 class Router extends Component {
   render() {
@@ -15,6 +15,7 @@ class Router extends Component {
         <Header />
         <main className="container mt-5">
           <Switch>
+            <Route exact path="/" component={Inicio} />
             <Route exact path="/producto/agregar" component={AgregarProducto} />
 
             <Route

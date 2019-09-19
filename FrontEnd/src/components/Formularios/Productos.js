@@ -75,7 +75,7 @@ class Producto extends Component {
             placeholder="Ingrese el stock"
           />
         </FormGroup>
-        <Button color="primary">{valor}</Button>
+        <Button color="primary">{this.props.btnNombre}</Button>
       </Form>
     );
   }

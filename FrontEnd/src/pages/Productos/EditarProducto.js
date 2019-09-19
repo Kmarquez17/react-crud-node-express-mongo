@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Formulario from "../components/Formularios/Productos";
+import Formulario from "../../components/Formularios/Productos";
 import Swal from "sweetalert2";
-import Request from "../services/request";
-import { runInThisContext } from "vm";
+import Request from "../../services/request";
+import NotFound from "./NotFound";
 
 class AgregarProducto extends Component {
   constructor(props) {
@@ -18,7 +18,8 @@ class AgregarProducto extends Component {
       precioVenta: "",
       stock: ""
     },
-    error: false
+    error: false,
+    isExiste: false
   };
 
   componentDidMount() {
@@ -28,6 +29,14 @@ class AgregarProducto extends Component {
   fetchApi = () => {
     this.service
       .listado(`/producto/listar/${this.props.match.params.id}`)
+      .then(res => {
+        if (res.status === 404) {
+          this.setState({
+            isExiste: true
+          });
+        }
+        return res.json();
+      })
       .then(res => this.setState({ data: res[0] }));
   };
 
@@ -41,6 +50,7 @@ class AgregarProducto extends Component {
       }
     });
   };
+
   handleSubmit = async e => {
     e.preventDefault();
 
@@ -69,36 +79,38 @@ class AgregarProducto extends Component {
 
     //Agregamos el producto
     const data = this.state.data;
-    this.service.editar("/producto/editar", data).then(res => {
-      console.log(res);
-      if (res.status === 200) {
-        Swal.fire(
-          "Producto Creado",
-          "El producto se creo correctamente",
-          "success"
-        );
-      }
-    });
+    this.service
+      .editar("/producto/editar", data)
+      // .then(res => res.json())
+      .then(res => {
+        if (res.status === 200) {
+          Swal.fire(
+            "Producto Editado",
+            "El producto se edito correctamente",
+            "success"
+          );
+        }
+      });
     this.props.history.push("/productos/listado");
   };
 
-  componentDidCatch(error, info) {
-    console.log(1);
-    this.setState({ error: true });
-  }
-
   render() {
-    return (
-      <React.Fragment>
-        <h2>Editar Producto</h2>
-        <Formulario
-          data={this.state.data}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          error={this.state.error}
-        />
-      </React.Fragment>
-    );
+    if (this.state.isExiste) {
+      return <NotFound />;
+    } else {
+      return (
+        <React.Fragment>
+          <h2>Editar Producto</h2>
+          <Formulario
+            data={this.state.data}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            error={this.state.error}
+            btnNombre="Editar"
+          />
+        </React.Fragment>
+      );
+    }
   }
 }
 
